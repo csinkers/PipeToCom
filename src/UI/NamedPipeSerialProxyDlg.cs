@@ -45,7 +45,7 @@ namespace NamedPipeSerialProxy.UI
         {
             if (Connection != null && Connection.IsStarted)
             {
-                btnTest.Text = "Test";
+                btnTest.Text = "Start";
                 Connection.Stop();
             }
             else
@@ -55,7 +55,7 @@ namespace NamedPipeSerialProxy.UI
                     var settings = BuildSettings();
                     Connection = new Connection(settings);
                     Connection.Start();
-                    btnTest.Text = "Testing...";
+                    btnTest.Text = "Stop";
                 }
                 catch (FormatException exception) { MessageBox.Show(exception.Message); }
             }
