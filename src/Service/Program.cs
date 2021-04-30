@@ -1,18 +1,15 @@
 ﻿using System.ServiceProcess;
-using System.Threading;
 
-namespace NP2COMS
+namespace NamedPipeSerialProxy.Service
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        /// 
-        public static int Main(string[] args)
+        public static int Main()
         {
-            ServiceBase.Run(new NP2COMService());
-
+            ServiceBase.Run(new NamedPipeSerialProxyService());
             return 0;
         }
     }

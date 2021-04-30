@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
-namespace NP2COMV
+namespace NamedPipeSerialProxy.UI
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -15,7 +13,7 @@ namespace NP2COMV
         {
             Application.EnableVisualStyles ();
             Application.SetCompatibleTextRenderingDefault (false);
-            Application.Run (new Form1 ());
+            Application.Run (new NamedPipeSerialProxyDlg ());
         }
     }
 }

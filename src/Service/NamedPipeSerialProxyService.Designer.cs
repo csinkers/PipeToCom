@@ -1,6 +1,6 @@
-﻿namespace NP2COMS
+﻿namespace NamedPipeSerialProxy.Service
 {
-    partial class NP2COMService
+    partial class NamedPipeSerialProxyService
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             // 
-            // NP2COMService
+            // NamedPipeToCOMService
             // 
-            this.ServiceName = "NP2COMService";
+            this.ServiceName = "NamedPipeToCOMService";
 
         }
 
         #endregion
-
 
     }
 }

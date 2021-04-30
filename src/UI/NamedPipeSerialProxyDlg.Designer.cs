@@ -1,6 +1,6 @@
-﻿namespace NP2COMV
+﻿namespace NamedPipeSerialProxy.UI
 {
-    partial class Form1
+    partial class NamedPipeSerialProxyDlg
     {
         /// <summary>
         /// Required designer variable.
@@ -44,18 +44,18 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.namedPipeComboBox = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnTest = new System.Windows.Forms.Button();
+            this.btnWriteConfig = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnTestService = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.dataBitsComboBox);
             this.groupBox1.Controls.Add(this.stopBitsComboBox);
             this.groupBox1.Controls.Add(this.parityComboBox);
@@ -83,27 +83,27 @@
             "7",
             "8",
             "9"});
-            this.dataBitsComboBox.Location = new System.Drawing.Point(64, 100);
+            this.dataBitsComboBox.Location = new System.Drawing.Point(67, 100);
             this.dataBitsComboBox.Name = "dataBitsComboBox";
-            this.dataBitsComboBox.Size = new System.Drawing.Size(210, 21);
+            this.dataBitsComboBox.Size = new System.Drawing.Size(207, 21);
             this.dataBitsComboBox.TabIndex = 8;
             // 
             // stopBitsComboBox
             // 
             this.stopBitsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.stopBitsComboBox.FormattingEnabled = true;
-            this.stopBitsComboBox.Location = new System.Drawing.Point(64, 127);
+            this.stopBitsComboBox.Location = new System.Drawing.Point(67, 127);
             this.stopBitsComboBox.Name = "stopBitsComboBox";
-            this.stopBitsComboBox.Size = new System.Drawing.Size(210, 21);
+            this.stopBitsComboBox.Size = new System.Drawing.Size(207, 21);
             this.stopBitsComboBox.TabIndex = 9;
             // 
             // parityComboBox
             // 
             this.parityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.parityComboBox.FormattingEnabled = true;
-            this.parityComboBox.Location = new System.Drawing.Point(64, 73);
+            this.parityComboBox.Location = new System.Drawing.Point(67, 73);
             this.parityComboBox.Name = "parityComboBox";
-            this.parityComboBox.Size = new System.Drawing.Size(210, 21);
+            this.parityComboBox.Size = new System.Drawing.Size(207, 21);
             this.parityComboBox.TabIndex = 7;
             // 
             // label6
@@ -138,9 +138,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 49);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 13);
+            this.label3.Size = new System.Drawing.Size(61, 13);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Baudrate:";
+            this.label3.Text = "Baud Rate:";
             // 
             // baudRateComboBox
             // 
@@ -167,9 +167,9 @@
             "256000 ",
             "460800",
             "921600"});
-            this.baudRateComboBox.Location = new System.Drawing.Point(64, 46);
+            this.baudRateComboBox.Location = new System.Drawing.Point(67, 46);
             this.baudRateComboBox.Name = "baudRateComboBox";
-            this.baudRateComboBox.Size = new System.Drawing.Size(210, 21);
+            this.baudRateComboBox.Size = new System.Drawing.Size(207, 21);
             this.baudRateComboBox.TabIndex = 6;
             // 
             // label2
@@ -184,9 +184,9 @@
             // serialPortComboBox
             // 
             this.serialPortComboBox.FormattingEnabled = true;
-            this.serialPortComboBox.Location = new System.Drawing.Point(64, 19);
+            this.serialPortComboBox.Location = new System.Drawing.Point(67, 19);
             this.serialPortComboBox.Name = "serialPortComboBox";
-            this.serialPortComboBox.Size = new System.Drawing.Size(210, 21);
+            this.serialPortComboBox.Size = new System.Drawing.Size(207, 21);
             this.serialPortComboBox.TabIndex = 5;
             // 
             // groupBox2
@@ -237,25 +237,25 @@
             this.namedPipeComboBox.Size = new System.Drawing.Size(197, 21);
             this.namedPipeComboBox.TabIndex = 2;
             // 
-            // button1
+            // btnTest
             // 
-            this.button1.Location = new System.Drawing.Point(584, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(126, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Test";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnTest.Location = new System.Drawing.Point(584, 18);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(126, 23);
+            this.btnTest.TabIndex = 0;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
-            // button2
+            // btnWriteConfig
             // 
-            this.button2.Location = new System.Drawing.Point(584, 47);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(126, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Write config file";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnWriteConfig.Location = new System.Drawing.Point(584, 47);
+            this.btnWriteConfig.Name = "btnWriteConfig";
+            this.btnWriteConfig.Size = new System.Drawing.Size(126, 23);
+            this.btnWriteConfig.TabIndex = 1;
+            this.btnWriteConfig.Text = "Write Config File";
+            this.btnWriteConfig.UseVisualStyleBackColor = true;
+            this.btnWriteConfig.Click += new System.EventHandler(this.btnWriteConfig_Click);
             // 
             // richTextBox1
             // 
@@ -266,31 +266,31 @@
             this.richTextBox1.TabIndex = 4;
             this.richTextBox1.Text = "";
             // 
-            // button3
+            // btnTestService
             // 
-            this.button3.Location = new System.Drawing.Point(584, 76);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(126, 23);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "Testservice";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnTestService.Location = new System.Drawing.Point(584, 76);
+            this.btnTestService.Name = "btnTestService";
+            this.btnTestService.Size = new System.Drawing.Size(126, 23);
+            this.btnTestService.TabIndex = 5;
+            this.btnTestService.Text = "Test Service";
+            this.btnTestService.UseVisualStyleBackColor = true;
+            this.btnTestService.Click += new System.EventHandler(this.btnTestService_Click);
             // 
-            // Form1
+            // NamedPipeSerialProxyDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(722, 524);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnTestService);
             this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnWriteConfig);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Name = "NamedPipeSerialProxyDlg";
+            this.Text = "Named Pipe Serial Proxy";
+            this.Load += new System.EventHandler(this.NamedPipeSerialProxyDlg_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -303,8 +303,8 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.Button btnWriteConfig;
         private System.Windows.Forms.ComboBox serialPortComboBox;
         private System.Windows.Forms.ComboBox namedPipeComboBox;
         private System.Windows.Forms.Label label2;
@@ -320,7 +320,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnTestService;
     }
 }
 

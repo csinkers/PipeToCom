@@ -2,7 +2,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Xml.Serialization;
 
-namespace NP2COM
+namespace NamedPipeSerialProxy.Core
 {
     public class Settings
     {
@@ -17,18 +17,17 @@ namespace NP2COM
         public void Save(string fileName)
         {
             if (File.Exists(fileName)) File.Delete(fileName);
-            using (var fs = File.Open(fileName,FileMode.CreateNew))
-                new XmlSerializer(typeof(Settings)).Serialize(fs, this);
+            using var fs = File.Open(fileName, FileMode.CreateNew);
+            new XmlSerializer(typeof(Settings)).Serialize(fs, this);
         }
 
         public static Settings Load(string fileName)
         {
-            if (File.Exists(fileName))
-            {
-                using (var fs =File.OpenRead(fileName))
-                    return (Settings)new XmlSerializer(typeof (Settings)).Deserialize(fs);
-            }
-            throw new FileNotFoundException("Can't find config file", fileName);
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException("Can't find config file", fileName);
+
+            using var fs = File.OpenRead(fileName);
+            return (Settings)new XmlSerializer(typeof(Settings)).Deserialize(fs);
         }
     }
 }

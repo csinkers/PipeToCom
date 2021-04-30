@@ -1,30 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
-using System.IO.Pipes;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using log4net;
 using log4net.Layout;
-using NP2COM;
-using NP2COMS;
+using NamedPipeSerialProxy.Core;
+using NamedPipeSerialProxy.Service;
 
-
-namespace NP2COMV
+namespace NamedPipeSerialProxy.UI
 {
-    public partial class Form1 : Form
+    public partial class NamedPipeSerialProxyDlg : Form
     {
-        public Form1 ()
+        public NamedPipeSerialProxyDlg ()
         {
             InitializeComponent ();
         }
 
-        private void Form1_Load (object sender, EventArgs e)
+        void NamedPipeSerialProxyDlg_Load (object sender, EventArgs e)
         {
             namedPipeComboBox.Items.AddRange(Directory.GetFiles(@"\\.\pipe\"));
             serialPortComboBox.Items.AddRange(SerialPort.GetPortNames());
@@ -42,38 +34,36 @@ namespace NP2COMV
             rtbAppender.Layout = new PatternLayout("%-5p %d{HH:mm:ss,fff} %-22.22c{1} %-18.18M - %m%n");
         }
 
-        private void button1_Click (object sender, EventArgs e)
+        void btnTest_Click (object sender, EventArgs e)
         {
             if (Connection != null && Connection.IsStarted)
             {
-                button1.Text = "Test";
+                btnTest.Text = "Test";
                 Connection.Stop();
             }
             else
             {
                 var namedPipe = Regex.Match((string) namedPipeComboBox.SelectedItem, @"\\\\(?<machine>[^\\]+)\\pipe\\(?<pipe>\w+)");
-                Parity parity;
-                StopBits stopbits;
-                Enum.TryParse((string) parityComboBox.SelectedItem, out parity);
-                Enum.TryParse((string) stopBitsComboBox.SelectedItem, out stopbits);
+                Enum.TryParse((string) parityComboBox.SelectedItem, out Parity parity);
+                Enum.TryParse((string) stopBitsComboBox.SelectedItem, out StopBits stopBits);
                 Connection = new Connection(new Settings
                                                 {
                                                     BaudRate = int.Parse((string) baudRateComboBox.SelectedItem),
                                                     ComPort = (string) serialPortComboBox.SelectedItem,
                                                     Parity = parity,
-                                                    StopBits = stopbits,
+                                                    StopBits = stopBits,
                                                     DataBits = int.Parse((string) dataBitsComboBox.SelectedItem),
                                                     MachineName = namedPipe.Groups["machine"].Value,
                                                     NamedPipe = namedPipe.Groups["pipe"].Value,
                                                 });
                 Connection.Start();
-                button1.Text = "Testing...";
+                btnTest.Text = "Testing...";
             }
         }
 
         protected Connection Connection { get; set; }
 
-        private void button2_Click(object sender, EventArgs e)
+        void btnWriteConfig_Click(object sender, EventArgs e)
         {
             var sfd = new SaveFileDialog
                           {
@@ -85,16 +75,14 @@ namespace NP2COMV
             {
                 var namedPipe = Regex.Match((string) namedPipeComboBox.SelectedItem,
                                             @"\\\\(?<machine>[^\\]+)\\pipe\\(?<pipe>\w+)");
-                Parity parity;
-                StopBits stopbits;
-                Enum.TryParse((string) parityComboBox.SelectedItem, out parity);
-                Enum.TryParse((string) stopBitsComboBox.SelectedItem, out stopbits);
+                Enum.TryParse((string) parityComboBox.SelectedItem, out Parity parity);
+                Enum.TryParse((string) stopBitsComboBox.SelectedItem, out StopBits stopBits);
                 new Settings()
                     {
                         BaudRate = int.Parse((string) baudRateComboBox.SelectedItem),
                         ComPort = (string) serialPortComboBox.SelectedItem,
                         Parity = parity,
-                        StopBits = stopbits,
+                        StopBits = stopBits,
                         DataBits = int.Parse((string) dataBitsComboBox.SelectedItem),
                         MachineName = namedPipe.Groups["machine"].Value,
                         NamedPipe = namedPipe.Groups["pipe"].Value,
@@ -102,11 +90,11 @@ namespace NP2COMV
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        void btnTestService_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("ConfigurationFiles (.n2c) files have to be in the current diectory: (" + Path.GetFullPath(".") + ")");
-            var comService = new NP2COMService();
-            comService.startorstop(true);
+            MessageBox.Show("ConfigurationFiles (.n2c) files have to be in the current directory: (" + Path.GetFullPath(".") + ")");
+            var comService = new NamedPipeSerialProxyService();
+            comService.Start();
         }
     }
 }
