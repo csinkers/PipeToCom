@@ -21,7 +21,7 @@ namespace NamedPipeSerialProxy.UI
             log.Received += (sender, e) => Append(e.Item1, e.Item2);
         }
 
-        public EventLevel LogLevel { get; set; }
+        public EventLevel LogLevel { get; set; } = EventLevel.Verbose;
 
         void UpdateControl(EventLevel severity, string message)
         {
@@ -45,7 +45,7 @@ namespace NamedPipeSerialProxy.UI
                 default: _richTextBox.SelectionColor = Color.Black; break;
             }
 
-            var formatted = $"{DateTime.Now:O} [{severity}] {message}";
+            var formatted = $"{DateTime.Now:O} [{severity}] {message}{Environment.NewLine}";
             _richTextBox.AppendText(formatted);
         }
 

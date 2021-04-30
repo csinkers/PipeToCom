@@ -31,6 +31,7 @@ namespace NamedPipeSerialProxy.Core
             if (IsStarted)
                 return;
 
+            Log.Instance.Debug($"Starting proxy from {CurrentSettings.ComPort} to {CurrentSettings.NamedPipe}");
             _serialPort = new SerialPort(
                 CurrentSettings.ComPort,
                 CurrentSettings.BaudRate,
@@ -60,6 +61,7 @@ namespace NamedPipeSerialProxy.Core
             if (!IsStarted)
                 return;
 
+            Log.Instance.Debug($"Stopping proxy from {CurrentSettings.ComPort} to {CurrentSettings.NamedPipe}");
             _stopEvent.Set(); // Signal the port forwarder thread to stop
             _portForwarder.Join(); // Wait for port forwarder thread to stop
             IsStarted = false;
@@ -67,11 +69,17 @@ namespace NamedPipeSerialProxy.Core
 
         void PortForwarder()
         {
+            try { ForwarderLoop(); }
+            catch (Exception e) { Log.Instance.Error(e.ToString()); }
+        }
+
+        void ForwarderLoop()
+        {
             var serialBuffer = new byte[_serialPort.ReadBufferSize];
             var pipeBuffer = new byte[_serialPort.ReadBufferSize];
 
             _serialPort.Open();
-            _namedPipe.Connect();
+            _namedPipe.Connect(5000);
             _namedPipe.ReadMode = PipeTransmissionMode.Byte;
 
             var pipeEvent = new ManualResetEvent(true);
