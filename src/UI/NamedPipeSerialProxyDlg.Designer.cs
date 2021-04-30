@@ -48,6 +48,7 @@
             this.btnWriteConfig = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.btnTestService = new System.Windows.Forms.Button();
+            this.btnWriteDefaultConfig = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -147,24 +148,24 @@
             this.baudRateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.baudRateComboBox.FormattingEnabled = true;
             this.baudRateComboBox.Items.AddRange(new object[] {
-            "110 ",
-            "300 ",
-            "600 ",
-            "1200 ",
-            "2400 ",
-            "4800 ",
-            "9600 ",
-            "14400 ",
-            "19200 ",
-            "28800 ",
-            "38400 ",
-            "56000 ",
-            "57600 ",
-            "115200 ",
-            "128000 ",
-            "153600 ",
-            "230400 ",
-            "256000 ",
+            "110",
+            "300",
+            "600",
+            "1200",
+            "2400",
+            "4800",
+            "9600",
+            "14400",
+            "19200",
+            "28800",
+            "38400",
+            "56000",
+            "57600",
+            "115200",
+            "128000",
+            "153600",
+            "230400",
+            "256000",
             "460800",
             "921600"});
             this.baudRateComboBox.Location = new System.Drawing.Point(67, 46);
@@ -249,7 +250,7 @@
             // 
             // btnWriteConfig
             // 
-            this.btnWriteConfig.Location = new System.Drawing.Point(584, 47);
+            this.btnWriteConfig.Location = new System.Drawing.Point(584, 76);
             this.btnWriteConfig.Name = "btnWriteConfig";
             this.btnWriteConfig.Size = new System.Drawing.Size(126, 23);
             this.btnWriteConfig.TabIndex = 1;
@@ -268,7 +269,7 @@
             // 
             // btnTestService
             // 
-            this.btnTestService.Location = new System.Drawing.Point(584, 76);
+            this.btnTestService.Location = new System.Drawing.Point(584, 47);
             this.btnTestService.Name = "btnTestService";
             this.btnTestService.Size = new System.Drawing.Size(126, 23);
             this.btnTestService.TabIndex = 5;
@@ -276,11 +277,22 @@
             this.btnTestService.UseVisualStyleBackColor = true;
             this.btnTestService.Click += new System.EventHandler(this.btnTestService_Click);
             // 
+            // btnWriteDefaultConfig
+            // 
+            this.btnWriteDefaultConfig.Location = new System.Drawing.Point(585, 106);
+            this.btnWriteDefaultConfig.Name = "btnWriteDefaultConfig";
+            this.btnWriteDefaultConfig.Size = new System.Drawing.Size(125, 27);
+            this.btnWriteDefaultConfig.TabIndex = 6;
+            this.btnWriteDefaultConfig.Text = "Write Default Config";
+            this.btnWriteDefaultConfig.UseVisualStyleBackColor = true;
+            this.btnWriteDefaultConfig.Click += new System.EventHandler(this.btnWriteDefaultConfig_Click);
+            // 
             // NamedPipeSerialProxyDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(722, 524);
+            this.Controls.Add(this.btnWriteDefaultConfig);
             this.Controls.Add(this.btnTestService);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.btnWriteConfig);
@@ -321,6 +333,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button btnTestService;
+        private System.Windows.Forms.Button btnWriteDefaultConfig;
     }
 }
 

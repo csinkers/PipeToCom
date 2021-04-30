@@ -1,95 +1,61 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics.Tracing;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using log4net;
-using log4net.Appender;
-using log4net.Repository.Hierarchy;
+using NamedPipeSerialProxy.Core;
 
 namespace NamedPipeSerialProxy.UI
 {
     /// <summary>
     /// Description of RichTextBoxAppender.
     /// </summary>
-    public class RichTextBoxAppender : AppenderSkeleton
+    public class RichTextBoxAppender
     {
-        delegate void UpdateControlDelegate(log4net.Core.LoggingEvent loggingEvent);
-        public RichTextBox RichTextBox { set; get; }
+        readonly RichTextBox _richTextBox;
+        delegate void UpdateControlDelegate(EventLevel severity, string message);
 
-        void UpdateControl(log4net.Core.LoggingEvent loggingEvent)
+        public RichTextBoxAppender(RichTextBox richTextBox, ILog log)
+        {
+            if (log == null) throw new ArgumentNullException(nameof(log));
+            _richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
+            log.Received += (sender, e) => Append(e.Item1, e.Item2);
+        }
+
+        void UpdateControl(EventLevel severity, string message)
         {
             // I looked at the TortoiseCVS code to figure out how
             // to use the RTB as a colored logger.  It noted a performance
             // problem when the buffer got long, so it cleared it every 100K.
-            if (RichTextBox.TextLength > 100000)
+            if (_richTextBox.TextLength > 100000)
             {
-                RichTextBox.Clear();
-                RichTextBox.SelectionColor = Color.Gray;
-                RichTextBox.AppendText("(earlier messages cleared because of log length)\n\n");
+                _richTextBox.Clear();
+                _richTextBox.SelectionColor = Color.Gray;
+                _richTextBox.AppendText("(earlier messages cleared because of log length)\n\n");
             }
 
-            switch (loggingEvent.Level.ToString())
+            switch (severity)
             {
-                case "INFO":
-                    RichTextBox.SelectionColor = Color.Black;
-                    break;
-                case "WARN":
-                    RichTextBox.SelectionColor = Color.Blue;
-                    break;
-                case "ERROR":
-                    RichTextBox.SelectionColor = Color.Red;
-                    break;
-                case "FATAL":
-                    RichTextBox.SelectionColor = Color.DarkOrange;
-                    break;
-                case "DEBUG":
-                    RichTextBox.SelectionColor = Color.DarkGreen;
-                    break;
-                default:
-                    RichTextBox.SelectionColor = Color.Black;
-                    break;
+                case EventLevel.Informational: _richTextBox.SelectionColor = Color.Black; break;
+                case EventLevel.Warning: _richTextBox.SelectionColor = Color.DarkOrange; break;
+                case EventLevel.Error: _richTextBox.SelectionColor = Color.Red; break;
+                case EventLevel.Critical: _richTextBox.SelectionColor = Color.MediumPurple; break;
+                case EventLevel.Verbose: _richTextBox.SelectionColor = Color.Green; break;
+                default: _richTextBox.SelectionColor = Color.Black; break;
             }
 
-            var sb = new StringBuilder();
-            using var sw = new StringWriter(sb);
-            Layout.Format(sw, loggingEvent);
-            sw.Flush();
-            RichTextBox.AppendText(sb.ToString());
+            var formatted = $"{DateTime.Now:O} [{severity}] {message}";
+            _richTextBox.AppendText(formatted);
         }
 
-        protected override void Append(log4net.Core.LoggingEvent loggingEvent)
+        public void Append(EventLevel severity, string message)
         {
-            if (RichTextBox == null) 
+            if (_richTextBox == null)
                 return;
 
-            if (RichTextBox.InvokeRequired) // make thread safe
-                RichTextBox.Invoke(new UpdateControlDelegate(UpdateControl), loggingEvent);
+            if (_richTextBox.InvokeRequired) // make thread safe
+                _richTextBox.Invoke((UpdateControlDelegate)UpdateControl, severity, message);
             else
-                UpdateControl(loggingEvent);
-        }
-
-        public static void SetRichTextBox(RichTextBox rtb)
-        {
-            rtb.ReadOnly = true;
-            rtb.HideSelection = false; // allows rtb to always append at the end
-            rtb.Clear();
-
-            foreach (RichTextBoxAppender appender in GetAppenders().OfType<RichTextBoxAppender>())
-                appender.RichTextBox = rtb;
-        }
-
-        static IEnumerable<IAppender> GetAppenders()
-        {
-            var appenders = new ArrayList();
-            appenders.AddRange(((Hierarchy)LogManager.GetRepository()).Root.Appenders);
-
-            foreach (var log in LogManager.GetCurrentLoggers())
-                appenders.AddRange(((Logger)log.Logger).Appenders);
-
-            return (IAppender[])appenders.ToArray(typeof(IAppender));
+                UpdateControl(severity, message);
         }
     }
 }

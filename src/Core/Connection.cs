@@ -4,13 +4,12 @@ using System.IO.Pipes;
 using System.IO.Ports;
 using System.Text;
 using System.Threading;
-using log4net;
 
 namespace NamedPipeSerialProxy.Core
 {
     public class Connection
     {
-        static readonly ILog Logger = LogManager.GetLogger(typeof(Connection));
+        static readonly ILog Logger = Log.Instance;
 
         readonly AutoResetEvent _stopEvent = new AutoResetEvent(false);
         NamedPipeClientStream _namedPipe;
@@ -20,7 +19,7 @@ namespace NamedPipeSerialProxy.Core
         public bool IsStarted { get; private set; }
         protected Settings CurrentSettings { get; }
 
-        static string GetLogString(byte[] buffer, int length) => 
+        static string GetLogString(byte[] buffer, int length) =>
             Encoding.UTF8.GetString(buffer, 0, length)
             .Replace("\r", "\\r")
             .Replace("\n", "\\n");
@@ -33,24 +32,24 @@ namespace NamedPipeSerialProxy.Core
                 return;
 
             _serialPort = new SerialPort(
-                CurrentSettings.ComPort, 
-                CurrentSettings.BaudRate, 
-                CurrentSettings.Parity, 
+                CurrentSettings.ComPort,
+                CurrentSettings.BaudRate,
+                CurrentSettings.Parity,
                 CurrentSettings.DataBits,
                 CurrentSettings.StopBits)
-                {
-                    RtsEnable = true,
-                    DtrEnable = true,
-                    Encoding = Encoding.UTF8
-                 };
+            {
+                RtsEnable = true,
+                DtrEnable = true,
+                Encoding = Encoding.UTF8
+            };
 
             _namedPipe = new NamedPipeClientStream(
-                CurrentSettings.MachineName, 
-                CurrentSettings.NamedPipe, 
+                CurrentSettings.MachineName,
+                CurrentSettings.NamedPipe,
                 PipeDirection.InOut,
                 PipeOptions.Asynchronous);
 
-            _portForwarder = new Thread(PortForwarder);          
+            _portForwarder = new Thread(PortForwarder);
             _portForwarder.Start();
 
             IsStarted = true;
@@ -75,8 +74,8 @@ namespace NamedPipeSerialProxy.Core
             _namedPipe.Connect();
             _namedPipe.ReadMode = PipeTransmissionMode.Byte;
 
-            using var pipeEvent = new ManualResetEvent(true);
-            using var serialEvent = new ManualResetEvent(true);
+            var pipeEvent = new ManualResetEvent(true);
+            var serialEvent = new ManualResetEvent(true);
             var waitHandles = new WaitHandle[] { serialEvent, pipeEvent, _stopEvent };
 
             int waitResult;
@@ -89,7 +88,7 @@ namespace NamedPipeSerialProxy.Core
                     _namedPipe.BeginRead(
                         pipeBuffer,
                         0,
-                        pipeBuffer.Length, 
+                        pipeBuffer.Length,
                         namedPipeAsyncResult =>
                         {
                             try
@@ -109,7 +108,7 @@ namespace NamedPipeSerialProxy.Core
                             }
                             catch (IOException) { }
                             catch (ObjectDisposedException) { /* Aborted due to close */ }
-                            catch (InvalidOperationException) { /* Aborted due to close */ } 
+                            catch (InvalidOperationException) { /* Aborted due to close */ }
 
                             pipeEvent.Set();
                         }, null);
@@ -142,7 +141,7 @@ namespace NamedPipeSerialProxy.Core
                             }
                             catch (IOException) { }
                             catch (ObjectDisposedException) { /* Aborted due to close */ }
-                            catch (InvalidOperationException) { /* Aborted due to close */ } 
+                            catch (InvalidOperationException) { /* Aborted due to close */ }
                             serialEvent.Set();
                         }, null);
                 }

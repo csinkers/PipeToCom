@@ -1,6 +1,8 @@
 using System.IO;
 using System.IO.Ports;
+using System.Reflection;
 using System.Xml.Serialization;
+using static System.FormattableString;
 
 namespace NamedPipeSerialProxy.Core
 {
@@ -13,21 +15,50 @@ namespace NamedPipeSerialProxy.Core
         public StopBits StopBits { get; set; }
         public Parity Parity { get; set; }
         public int DataBits { get; set; }
+        [XmlIgnore] public string PipePath => Invariant($@"\\{MachineName}\pipe\{NamedPipe}");
 
-        public void Save(string fileName)
+        public static string EntryPointDirectory
         {
-            if (File.Exists(fileName)) File.Delete(fileName);
-            using var fs = File.Open(fileName, FileMode.CreateNew);
-            new XmlSerializer(typeof(Settings)).Serialize(fs, this);
+            get
+            {
+                var entryFile = Assembly.GetEntryAssembly()?.Location;
+                return string.IsNullOrEmpty(entryFile) ? null : Path.GetDirectoryName(entryFile);
+            }
         }
 
-        public static Settings Load(string fileName)
+        public static string Filename
         {
-            if (!File.Exists(fileName))
-                throw new FileNotFoundException("Can't find config file", fileName);
+            get
+            {
+                var dir = EntryPointDirectory;
+                return string.IsNullOrEmpty(dir) ? null : Path.Combine(dir, "Settings.n2c");
+            }
+        }
 
-            using var fs = File.OpenRead(fileName);
+        public static Settings Defaults => new Settings
+        {
+            MachineName = ".",
+            NamedPipe = "pos_com1",
+            ComPort = "COM5",
+            BaudRate = 9600,
+            StopBits = StopBits.One,
+            Parity = Parity.None,
+            DataBits = 8,
+        };
+
+        public static Settings Load(string filename)
+        {
+            if (!File.Exists(filename))
+                return Defaults;
+
+            using var fs = File.OpenRead(filename);
             return (Settings)new XmlSerializer(typeof(Settings)).Deserialize(fs);
+        }
+
+        public void Save(string filename)
+        {
+            using var fs = File.Open(filename, FileMode.Create);
+            new XmlSerializer(typeof(Settings)).Serialize(fs, this);
         }
     }
 }

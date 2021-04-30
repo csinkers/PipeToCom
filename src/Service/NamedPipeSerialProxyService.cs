@@ -5,8 +5,6 @@ using System.Configuration.Install;
 using System.IO;
 using System.Linq;
 using System.ServiceProcess;
-using log4net;
-using log4net.Config;
 using NamedPipeSerialProxy.Core;
 
 namespace NamedPipeSerialProxy.Service
@@ -14,12 +12,11 @@ namespace NamedPipeSerialProxy.Service
     public partial class NamedPipeSerialProxyService : ServiceBase
     {
         static readonly List<Connection> ConnectionList = new List<Connection>();
-        static readonly ILog Logger = LogManager.GetLogger(typeof(NamedPipeSerialProxyService));
+        static readonly ILog Logger = Log.Instance;
         readonly string _servicePath = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).FullName;
 
         public NamedPipeSerialProxyService()
         {
-            XmlConfigurator.ConfigureAndWatch(new FileInfo(_servicePath + "log4net.config"));
             InitializeComponent();
         }
 
