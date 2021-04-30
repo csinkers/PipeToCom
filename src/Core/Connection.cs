@@ -19,10 +19,54 @@ namespace NamedPipeSerialProxy.Core
         public bool IsStarted { get; private set; }
         protected Settings CurrentSettings { get; }
 
-        static string GetLogString(byte[] buffer, int length) =>
-            Encoding.UTF8.GetString(buffer, 0, length)
-            .Replace("\r", "\\r")
-            .Replace("\n", "\\n");
+        static string GetLogString(byte[] buffer, int length)
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < length; i++)
+            {
+                var b = buffer[i];
+                if (b < 0x20)
+                {
+                    switch (b)
+                    {
+                        case 0x00: sb.Append("(NUL)"); break;
+                        case 0x01: sb.Append("(SOH)"); break;
+                        case 0x02: sb.Append("(STX)"); break;
+                        case 0x03: sb.Append("(ETX)"); break;
+                        case 0x04: sb.Append("(EOT)"); break;
+                        case 0x05: sb.Append("(ENQ)"); break;
+                        case 0x06: sb.Append("(ACK)"); break;
+                        case 0x07: sb.Append("(BEL)"); break;
+                        case 0x08: sb.Append("(BS)"); break;
+                        case 0x09: sb.Append("\\t"); break;
+                        case 0x0A: sb.Append("\\r"); break;
+                        case 0x0B: sb.Append("(VT)"); break;
+                        case 0x0C: sb.Append("(FF)"); break;
+                        case 0x0D: sb.Append("\\n"); break;
+                        case 0x0E: sb.Append("(SO)"); break;
+                        case 0x0F: sb.Append("(SI)"); break;
+                        case 0x10: sb.Append("(DLE)"); break;
+                        case 0x11: sb.Append("(DC1)"); break;
+                        case 0x12: sb.Append("(DC2)"); break;
+                        case 0x13: sb.Append("(DC3)"); break;
+                        case 0x14: sb.Append("(DC4)"); break;
+                        case 0x15: sb.Append("(NAK)"); break;
+                        case 0x16: sb.Append("(SYN)"); break;
+                        case 0x17: sb.Append("(ETB)"); break;
+                        case 0x18: sb.Append("(CAN)"); break;
+                        case 0x19: sb.Append("(EM)"); break;
+                        case 0x1A: sb.Append("(SUB)"); break;
+                        case 0x1B: sb.Append("(ESC)"); break;
+                        case 0x1C: sb.Append("(FS)"); break;
+                        case 0x1D: sb.Append("(GS)"); break;
+                        case 0x1E: sb.Append("(RS)"); break;
+                        case 0x1F: sb.Append("(US)"); break;
+                    }
+                }
+                else sb.Append(Convert.ToChar(b));
+            }
+            return sb.ToString();
+        }
 
         public Connection(Settings settings) => CurrentSettings = settings ?? throw new ArgumentNullException(nameof(settings));
 
@@ -102,7 +146,7 @@ namespace NamedPipeSerialProxy.Core
                             try
                             {
                                 int actualLength = _namedPipe.EndRead(namedPipeAsyncResult);
-                                Logger.Debug("Read (NP): " + GetLogString(pipeBuffer, actualLength));
+                                Logger.Debug("NP: " + GetLogString(pipeBuffer, actualLength));
 
                                 _serialPort.BaseStream.BeginWrite(
                                     pipeBuffer,
@@ -111,7 +155,7 @@ namespace NamedPipeSerialProxy.Core
                                     serialPortAsyncResult =>
                                     {
                                         _serialPort.BaseStream.EndWrite(serialPortAsyncResult);
-                                        Logger.Debug("Wrote (CP): " + GetLogString(pipeBuffer, actualLength));
+                                        // Logger.Debug("Wrote (CP): " + GetLogString(pipeBuffer, actualLength));
                                     }, null);
                             }
                             catch (IOException) { }
@@ -135,7 +179,7 @@ namespace NamedPipeSerialProxy.Core
                             try
                             {
                                 int actualLength = _serialPort.BaseStream.EndRead(serialPortAsyncResult);
-                                Logger.Debug("Read (CP): " + GetLogString(serialBuffer, actualLength));
+                                Logger.Debug("CP: " + GetLogString(serialBuffer, actualLength));
 
                                 _namedPipe.BeginWrite(
                                     serialBuffer,
@@ -144,7 +188,7 @@ namespace NamedPipeSerialProxy.Core
                                     namedPipeAsyncResult =>
                                     {
                                         _namedPipe.EndWrite(namedPipeAsyncResult);
-                                        Logger.Debug("Wrote (NP): " + GetLogString(serialBuffer, actualLength));
+                                        // Logger.Debug("Wrote (NP): " + GetLogString(serialBuffer, actualLength));
                                     }, null);
                             }
                             catch (IOException) { }

@@ -45,7 +45,7 @@ namespace NamedPipeSerialProxy.UI
                 default: _richTextBox.SelectionColor = Color.Black; break;
             }
 
-            var formatted = $"{DateTime.Now:O} [{severity}] {message}{Environment.NewLine}";
+            var formatted = $"{DateTime.UtcNow:O} [{severity}] {message}{Environment.NewLine}";
             _richTextBox.AppendText(formatted);
         }
 
