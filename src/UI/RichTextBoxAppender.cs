@@ -21,6 +21,8 @@ namespace NamedPipeSerialProxy.UI
             log.Received += (sender, e) => Append(e.Item1, e.Item2);
         }
 
+        public EventLevel LogLevel { get; set; }
+
         void UpdateControl(EventLevel severity, string message)
         {
             // I looked at the TortoiseCVS code to figure out how
@@ -50,6 +52,9 @@ namespace NamedPipeSerialProxy.UI
         public void Append(EventLevel severity, string message)
         {
             if (_richTextBox == null)
+                return;
+
+            if (severity > LogLevel)
                 return;
 
             if (_richTextBox.InvokeRequired) // make thread safe

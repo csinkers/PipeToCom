@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
@@ -34,10 +35,10 @@ namespace NamedPipeSerialProxy.UI
             SetDataBits(settings);
             SetStopBits(settings);
 
-            richTextBox1.ReadOnly = true;
-            richTextBox1.HideSelection = false; // allows text box to always append at the end
-            richTextBox1.Clear();
-            _rtbAppender = new RichTextBoxAppender(richTextBox1, Log.Instance);
+            richTextLog.ReadOnly = true;
+            richTextLog.HideSelection = false; // allows text box to always append at the end
+            richTextLog.Clear();
+            _rtbAppender = new RichTextBoxAppender(richTextLog, Log.Instance);
         }
 
         void btnTest_Click(object sender, EventArgs e)
@@ -167,6 +168,17 @@ namespace NamedPipeSerialProxy.UI
                 .FirstOrDefault(x => x.HasValue);
 
             stopBitsComboBox.SelectedIndex = index ?? 0;
+        }
+
+        void LogLevelRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            var level = _rtbAppender.LogLevel;
+            if (rdoVerbose.Checked) level = EventLevel.Verbose;
+            if(rdoInfo.Checked) level = EventLevel.Informational;
+            if(rdoWarn.Checked) level = EventLevel.Warning;
+            if(rdoError.Checked) level = EventLevel.Error;
+            if(rdoCritical.Checked) level = EventLevel.Critical;
+            _rtbAppender.LogLevel = level;
         }
     }
 }

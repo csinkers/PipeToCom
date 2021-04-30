@@ -46,17 +46,22 @@
             this.namedPipeComboBox = new System.Windows.Forms.ComboBox();
             this.btnTest = new System.Windows.Forms.Button();
             this.btnWriteConfig = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextLog = new System.Windows.Forms.RichTextBox();
             this.btnTestService = new System.Windows.Forms.Button();
             this.btnWriteDefaultConfig = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rdoCritical = new System.Windows.Forms.RadioButton();
+            this.rdoError = new System.Windows.Forms.RadioButton();
+            this.rdoWarn = new System.Windows.Forms.RadioButton();
+            this.rdoInfo = new System.Windows.Forms.RadioButton();
+            this.rdoVerbose = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.dataBitsComboBox);
             this.groupBox1.Controls.Add(this.stopBitsComboBox);
             this.groupBox1.Controls.Add(this.parityComboBox);
@@ -69,7 +74,7 @@
             this.groupBox1.Controls.Add(this.serialPortComboBox);
             this.groupBox1.Location = new System.Drawing.Point(298, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(280, 224);
+            this.groupBox1.Size = new System.Drawing.Size(279, 204);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "SerialPort:";
@@ -198,7 +203,7 @@
             this.groupBox2.Controls.Add(this.namedPipeComboBox);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(280, 224);
+            this.groupBox2.Size = new System.Drawing.Size(280, 94);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "NamedPipe";
@@ -240,7 +245,8 @@
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(584, 18);
+            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTest.Location = new System.Drawing.Point(590, 18);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(126, 23);
             this.btnTest.TabIndex = 0;
@@ -250,7 +256,8 @@
             // 
             // btnWriteConfig
             // 
-            this.btnWriteConfig.Location = new System.Drawing.Point(584, 76);
+            this.btnWriteConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnWriteConfig.Location = new System.Drawing.Point(590, 76);
             this.btnWriteConfig.Name = "btnWriteConfig";
             this.btnWriteConfig.Size = new System.Drawing.Size(126, 23);
             this.btnWriteConfig.TabIndex = 1;
@@ -258,18 +265,22 @@
             this.btnWriteConfig.UseVisualStyleBackColor = true;
             this.btnWriteConfig.Click += new System.EventHandler(this.btnWriteConfig_Click);
             // 
-            // richTextBox1
+            // richTextLog
             // 
-            this.richTextBox1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(12, 242);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(698, 270);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
+            this.richTextLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextLog.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextLog.Location = new System.Drawing.Point(12, 224);
+            this.richTextLog.Name = "richTextLog";
+            this.richTextLog.Size = new System.Drawing.Size(704, 422);
+            this.richTextLog.TabIndex = 4;
+            this.richTextLog.Text = "";
             // 
             // btnTestService
             // 
-            this.btnTestService.Location = new System.Drawing.Point(584, 47);
+            this.btnTestService.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTestService.Location = new System.Drawing.Point(590, 47);
             this.btnTestService.Name = "btnTestService";
             this.btnTestService.Size = new System.Drawing.Size(126, 23);
             this.btnTestService.TabIndex = 5;
@@ -279,7 +290,8 @@
             // 
             // btnWriteDefaultConfig
             // 
-            this.btnWriteDefaultConfig.Location = new System.Drawing.Point(585, 106);
+            this.btnWriteDefaultConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnWriteDefaultConfig.Location = new System.Drawing.Point(591, 106);
             this.btnWriteDefaultConfig.Name = "btnWriteDefaultConfig";
             this.btnWriteDefaultConfig.Size = new System.Drawing.Size(125, 27);
             this.btnWriteDefaultConfig.TabIndex = 6;
@@ -287,19 +299,89 @@
             this.btnWriteDefaultConfig.UseVisualStyleBackColor = true;
             this.btnWriteDefaultConfig.Click += new System.EventHandler(this.btnWriteDefaultConfig_Click);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.rdoCritical);
+            this.groupBox3.Controls.Add(this.rdoError);
+            this.groupBox3.Controls.Add(this.rdoWarn);
+            this.groupBox3.Controls.Add(this.rdoInfo);
+            this.groupBox3.Controls.Add(this.rdoVerbose);
+            this.groupBox3.Location = new System.Drawing.Point(21, 113);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(271, 103);
+            this.groupBox3.TabIndex = 7;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Log Level";
+            // 
+            // rdoCritical
+            // 
+            this.rdoCritical.AutoSize = true;
+            this.rdoCritical.Location = new System.Drawing.Point(99, 43);
+            this.rdoCritical.Name = "rdoCritical";
+            this.rdoCritical.Size = new System.Drawing.Size(56, 17);
+            this.rdoCritical.TabIndex = 4;
+            this.rdoCritical.Text = "Critical";
+            this.rdoCritical.UseVisualStyleBackColor = true;
+            // 
+            // rdoError
+            // 
+            this.rdoError.AutoSize = true;
+            this.rdoError.Location = new System.Drawing.Point(98, 19);
+            this.rdoError.Name = "rdoError";
+            this.rdoError.Size = new System.Drawing.Size(47, 17);
+            this.rdoError.TabIndex = 3;
+            this.rdoError.Text = "Error";
+            this.rdoError.UseVisualStyleBackColor = true;
+            // 
+            // rdoWarn
+            // 
+            this.rdoWarn.AutoSize = true;
+            this.rdoWarn.Location = new System.Drawing.Point(7, 68);
+            this.rdoWarn.Name = "rdoWarn";
+            this.rdoWarn.Size = new System.Drawing.Size(65, 17);
+            this.rdoWarn.TabIndex = 2;
+            this.rdoWarn.Text = "Warning";
+            this.rdoWarn.UseVisualStyleBackColor = true;
+            // 
+            // rdoInfo
+            // 
+            this.rdoInfo.AutoSize = true;
+            this.rdoInfo.Location = new System.Drawing.Point(7, 44);
+            this.rdoInfo.Name = "rdoInfo";
+            this.rdoInfo.Size = new System.Drawing.Size(43, 17);
+            this.rdoInfo.TabIndex = 1;
+            this.rdoInfo.Text = "Info";
+            this.rdoInfo.UseVisualStyleBackColor = true;
+            this.rdoInfo.CheckedChanged += new System.EventHandler(this.LogLevelRadio_CheckedChanged);
+            // 
+            // rdoVerbose
+            // 
+            this.rdoVerbose.AutoSize = true;
+            this.rdoVerbose.Checked = true;
+            this.rdoVerbose.Location = new System.Drawing.Point(7, 20);
+            this.rdoVerbose.Name = "rdoVerbose";
+            this.rdoVerbose.Size = new System.Drawing.Size(64, 17);
+            this.rdoVerbose.TabIndex = 0;
+            this.rdoVerbose.TabStop = true;
+            this.rdoVerbose.Text = "Verbose";
+            this.rdoVerbose.UseVisualStyleBackColor = true;
+            this.rdoVerbose.CheckedChanged += new System.EventHandler(this.LogLevelRadio_CheckedChanged);
+            // 
             // NamedPipeSerialProxyDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 524);
+            this.ClientSize = new System.Drawing.Size(721, 652);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnWriteDefaultConfig);
             this.Controls.Add(this.btnTestService);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.richTextLog);
             this.Controls.Add(this.btnWriteConfig);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimumSize = new System.Drawing.Size(737, 300);
             this.Name = "NamedPipeSerialProxyDlg";
             this.Text = "Named Pipe Serial Proxy";
             this.Load += new System.EventHandler(this.NamedPipeSerialProxyDlg_Load);
@@ -307,6 +389,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -331,9 +415,15 @@
         private System.Windows.Forms.ComboBox dataBitsComboBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextLog;
         private System.Windows.Forms.Button btnTestService;
         private System.Windows.Forms.Button btnWriteDefaultConfig;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton rdoCritical;
+        private System.Windows.Forms.RadioButton rdoError;
+        private System.Windows.Forms.RadioButton rdoWarn;
+        private System.Windows.Forms.RadioButton rdoInfo;
+        private System.Windows.Forms.RadioButton rdoVerbose;
     }
 }
 
